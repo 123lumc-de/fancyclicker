@@ -1,0 +1,41 @@
+# CookieClicker Konfiguration
+
+gui:
+  title: "&8&lCookie Clicker"
+  size: 27
+
+# Wie viele Cookies pro Klick auf Level 1
+base-click-value: 1
+
+# Formel fuer Kosten des naechsten Levels: base-cost * level
+level-up:
+  base-cost: 5000
+
+# Wie viel Geld 1 Cookie beim Cash-Out wert ist
+economy:
+  enabled: true
+  cookies-per-money: 100.0
+
+sounds:
+  click: ENTITY_ITEM_PICKUP
+  levelup: ENTITY_PLAYER_LEVELUP
+  cashout: ENTITY_EXPERIENCE_ORB_PICKUP
+
+messages:
+  prefix: "&8[&6CookieClicker&8] &r"
+  no-permission: "&cDu hast keine Berechtigung dafuer."
+  bind-look-at-block: "&cSchau auf einen Block, um ihn zu binden."
+  bind-success: "&aCookie-Block wurde gebunden!"
+  unbind-success: "&aCookie-Block wurde entfernt."
+  unbind-none: "&cEs ist aktuell kein Cookie-Block gebunden."
+  reload-success: "&aKonfiguration wurde neu geladen."
+  reset-success: "&aDaten von %player% wurden zurueckgesetzt."
+  setcookie-success: "&aCookies von %player% auf %amount% gesetzt."
+  addcookie-success: "&a%amount% Cookies zu %player% hinzugefuegt."
+  setlevel-success: "&aLevel von %player% auf %level% gesetzt."
+  player-not-found: "&cSpieler nicht gefunden oder nie online gewesen."
+  invalid-number: "&cUngueltige Zahl."
+  cashout-none: "&cDu hast keine Cookies zum Einloesen."
+  cashout-success: "&aDu hast %cookies% Cookies gegen %money% eingeloest."
+  cashout-no-economy: "&cKein Wirtschaftssystem (Vault) verfuegbar."
+  usage: "&cNutzung: /cc <bind|unbind|reload|reset|setcookie|addcookie|setlevel>"
