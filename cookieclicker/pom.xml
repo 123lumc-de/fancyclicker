@@ -15,12 +15,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!--
             WICHTIG: Passe die paper-api Version unten an die exakte Version deines
-            Servers an (1.26.1-R0.1-SNAPSHOT ist Stand jetzt evtl. noch nicht auf
+            Servers an (26.1.2-R0.1-SNAPSHOT ist Stand jetzt evtl. noch nicht auf
             repo.papermc.io verfügbar, je nachdem wann du baust). Schau unter
             https://repo.papermc.io/#browse/browse:maven-releases:io%2Fpapermc%2Fpaper%2Fpaper-api
             nach der korrekten Versionsnummer.
         -->
-        <paper.version>1.26.1-R0.1-SNAPSHOT</paper.version>
+        <paper.version>26.1.2-R0.1-SNAPSHOT</paper.version>
     </properties>
 
     <repositories>
