@@ -1,16 +1,21 @@
-package com.lmcstudios.cookieclicker;
+package com.lmcstudios.fancyclicker;
 
-import com.lmcstudios.cookieclicker.commands.CCCommand;
-import com.lmcstudios.cookieclicker.data.DataManager;
-import com.lmcstudios.cookieclicker.economy.EconomyManager;
-import com.lmcstudios.cookieclicker.listeners.GUIListener;
-import com.lmcstudios.cookieclicker.listeners.InteractListener;
-import com.lmcstudios.cookieclicker.placeholder.CookieClickerExpansion;
-import com.lmcstudios.cookieclicker.util.BindManager;
+import com.lmcstudios.fancyclicker.commands.FCCommand;
+import com.lmcstudios.fancyclicker.data.DataManager;
+import com.lmcstudios.fancyclicker.economy.EconomyManager;
+import com.lmcstudios.fancyclicker.listeners.GUIListener;
+import com.lmcstudios.fancyclicker.listeners.InteractListener;
+import com.lmcstudios.fancyclicker.placeholder.FancyClickerExpansion;
+import com.lmcstudios.fancyclicker.util.BindManager;
+import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class CookieClickerPlugin extends JavaPlugin {
+public class FancyClickerPlugin extends JavaPlugin {
+
+    // >>> HIER deine bStats-Plugin-ID eintragen! <<<
+    private static final int BSTATS_PLUGIN_ID = 12345;
 
     private DataManager dataManager;
     private BindManager bindManager;
@@ -30,15 +35,15 @@ public class CookieClickerPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new InteractListener(this), this);
         getServer().getPluginManager().registerEvents(guiListener, this);
 
-        CCCommand ccCommand = new CCCommand(this);
-        var command = getCommand("cc");
+        FCCommand fcCommand = new FCCommand(this);
+        var command = getCommand("fc");
         if (command != null) {
-            command.setExecutor(ccCommand);
-            command.setTabCompleter(ccCommand);
+            command.setExecutor(fcCommand);
+            command.setTabCompleter(fcCommand);
         }
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            new CookieClickerExpansion(this).register();
+            new FancyClickerExpansion(this).register();
             getLogger().info("PlaceholderAPI gefunden - Placeholder registriert.");
         }
 
@@ -48,14 +53,33 @@ public class CookieClickerPlugin extends JavaPlugin {
             getLogger().warning("Vault/Economy nicht gefunden - Cash-Out ist deaktiviert.");
         }
 
-        getLogger().info("CookieClicker wurde aktiviert.");
+        // bStats initialisieren
+        setupBStats();
+
+        getLogger().info("FancyClicker wurde aktiviert.");
+    }
+
+    private void setupBStats() {
+        if (BSTATS_PLUGIN_ID == 12345) {
+            getLogger().warning("bStats-Plugin-ID ist noch nicht gesetzt! Bitte in FancyClickerPlugin.java eintragen.");
+            return;
+        }
+        Metrics metrics = new Metrics(this, BSTATS_PLUGIN_ID);
+
+        // Beispiel: Zeigt, wie viele Server Economy aktiviert haben
+        metrics.addCustomChart(new SimplePie("economy_enabled", () ->
+                String.valueOf(getConfig().getBoolean("economy.enabled", true))));
+
+        // Beispiel: Zeigt die genutzte Server-Version
+        metrics.addCustomChart(new SimplePie("server_version", () ->
+                Bukkit.getVersion()));
     }
 
     @Override
     public void onDisable() {
         if (dataManager != null) dataManager.saveAll();
         if (bindManager != null) bindManager.save();
-        getLogger().info("CookieClicker wurde deaktiviert.");
+        getLogger().info("FancyClicker wurde deaktiviert.");
     }
 
     public String msg(String key) {
