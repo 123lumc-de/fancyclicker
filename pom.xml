@@ -20,7 +20,7 @@
             Bereich [26.1.2.build,) laesst Maven automatisch den neuesten
             verfuegbaren Build fuer diese Release-Version verwenden.
         -->
-        <paper.version>[26.1.2.build,)</paper.version>
+        <paper.version>[26.1.2.build,26.2)</paper.version>
     </properties>
 
     <repositories>
