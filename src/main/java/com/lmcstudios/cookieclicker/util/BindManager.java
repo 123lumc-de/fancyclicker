@@ -23,63 +23,9 @@ public class BindManager {
     }
 
     private void load() {
-        if (!file.exists()) {
-            return;
-        }
+        if (!file.exists()) return;
         FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
-        if (!cfg.contains("world")) {
-            return;
-        }
+        if (!cfg.contains("world")) return;
         World world = Bukkit.getWorld(cfg.getString("world"));
         if (world == null) {
-            plugin.getLogger().warning("Gebundene Welt '" + cfg.getString("world") + "' nicht gefunden. Bindung ignoriert.");
-            return;
-        }
-        int x = cfg.getInt("x");
-        int y = cfg.getInt("y");
-        int z = cfg.getInt("z");
-        boundLocation = new Location(world, x, y, z);
-    }
-
-    public void save() {
-        FileConfiguration cfg = new YamlConfiguration();
-        if (boundLocation != null) {
-            cfg.set("world", boundLocation.getWorld().getName());
-            cfg.set("x", boundLocation.getBlockX());
-            cfg.set("y", boundLocation.getBlockY());
-            cfg.set("z", boundLocation.getBlockZ());
-        }
-        try {
-            plugin.getDataFolder().mkdirs();
-            cfg.save(file);
-        } catch (IOException e) {
-            plugin.getLogger().severe("Konnte bind.yml nicht speichern: " + e.getMessage());
-        }
-    }
-
-    public boolean isBound() {
-        return boundLocation != null;
-    }
-
-    public boolean isBoundBlock(Location location) {
-        if (boundLocation == null || location == null) return false;
-        if (!boundLocation.getWorld().equals(location.getWorld())) return false;
-        return boundLocation.getBlockX() == location.getBlockX()
-                && boundLocation.getBlockY() == location.getBlockY()
-                && boundLocation.getBlockZ() == location.getBlockZ();
-    }
-
-    public void bind(Location location) {
-        this.boundLocation = location.clone();
-        save();
-    }
-
-    public void unbind() {
-        this.boundLocation = null;
-        save();
-    }
-
-    public Location getBoundLocation() {
-        return boundLocation;
-    }
-}
+            plugin.getLogger().warning("Gebundene Welt nicht gefunden. Bindung ignoriert.");
