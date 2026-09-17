@@ -1,7 +1,7 @@
 name: CookieClicker
 version: '${project.version}'
 main: com.lmcstudios.cookieclicker.CookieClickerPlugin
-api-version: '26.1'
+api-version: '26.1.2'
 author: lmc Studios
 description: Ein moderner Cookie-Clicker fuer deinen Minecraft-Server.
 softdepend: [Vault, PlaceholderAPI]
