@@ -74,22 +74,24 @@ public class CCCommand implements CommandExecutor, TabCompleter {
     private void handleReload(CommandSender sender) {
         if (!requireAdmin(sender)) return;
         plugin.reloadConfig();
+        plugin.getGuiListener().reloadGui();
         sender.sendMessage(prefix() + color(plugin.msg("reload-success")));
     }
 
-    private void handleReload(CommandSender sender) {
+    private void handleReset(CommandSender sender, String[] args) {
         if (!requireAdmin(sender)) return;
-        plugin.reloadConfig();
-        plugin.getGuiListener().reloadGui();  // <-- NEU
-        sender.sendMessage(prefix() + color(plugin.msg("reload-success")));
-    }
+        if (args.length < 2) {
+            sender.sendMessage(prefix() + color(plugin.msg("usage")));
+            return;
+        }
         OfflinePlayer target = resolvePlayer(args[1]);
         if (target == null) {
             sender.sendMessage(prefix() + color(plugin.msg("player-not-found")));
             return;
         }
         plugin.getDataManager().reset(target.getUniqueId());
-        sender.sendMessage(prefix() + color(plugin.msg("reset-success").replace("%player%", displayName(target))));
+        sender.sendMessage(prefix() + color(plugin.msg("reset-success")
+                .replace("%player%", displayName(target))));
     }
 
     private void handleSetCookie(CommandSender sender, String[] args) {
@@ -209,14 +211,35 @@ public class CCCommand implements CommandExecutor, TabCompleter {
 
     private String color(String s) {
         if (s == null) return "";
+        s = translateHex(s);
         return ChatColor.translateAlternateColorCodes('&', s);
+    }
+
+    private String translateHex(String input) {
+        StringBuilder sb = new StringBuilder();
+        int i = 0;
+        while (i < input.length()) {
+            if (input.charAt(i) == '#' && i + 7 <= input.length()) {
+                String hex = input.substring(i + 1, i + 7);
+                if (hex.matches("[0-9a-fA-F]{6}")) {
+                    sb.append(net.md_5.bungee.api.ChatColor.of("#" + hex));
+                    i += 7;
+                    continue;
+                }
+            }
+            sb.append(input.charAt(i));
+            i++;
+        }
+        return sb.toString();
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> subs = List.of("bind", "unbind", "reload", "reset", "setcookie", "addcookie", "setlevel");
         if (args.length == 1) {
-            return subs.stream().filter(s -> s.startsWith(args[0].toLowerCase())).collect(Collectors.toList());
+            return subs.stream()
+                    .filter(s -> s.startsWith(args[0].toLowerCase()))
+                    .collect(Collectors.toList());
         }
         if (args.length == 2 && List.of("reset", "setcookie", "addcookie", "setlevel").contains(args[0].toLowerCase())) {
             return Bukkit.getOnlinePlayers().stream()
