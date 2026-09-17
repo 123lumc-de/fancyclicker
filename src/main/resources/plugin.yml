@@ -17,5 +17,5 @@ permissions:
     description: Erlaubt das Benutzen des Cookie-Clicker-Blocks.
     default: true
   cookieclicker.admin:
-    description: Erlaubt Admin-Befehle (bind, unbind, reload, reset, setcookie, addcookie, setlevel).
+    description: Erlaubt Admin-Befehle.
     default: op
