@@ -4,20 +4,17 @@ gui:
   title: "&8&lCookie Clicker"
   size: 27
 
-# Wie viele Cookies pro Klick auf Level 1
-base-click-value: 1
-
 # Formel fuer Kosten des naechsten Levels: base-cost * level
 level-up:
   base-cost: 5000
 
-# Wie viel Geld 1 Cookie beim Cash-Out wert ist
+# Economy (Vault). Wenn false, ist Cash-Out deaktiviert.
 economy:
   enabled: true
   cookies-per-money: 100.0
 
 sounds:
-  click: ENTITY_ITEM_PICKUP
+  click: BLOCK_STONE_BREAK
   levelup: ENTITY_PLAYER_LEVELUP
   cashout: ENTITY_EXPERIENCE_ORB_PICKUP
 
@@ -39,3 +36,15 @@ messages:
   cashout-success: "&aDu hast %cookies% Cookies gegen %money% eingeloest."
   cashout-no-economy: "&cKein Wirtschaftssystem (Vault) verfuegbar."
   usage: "&cNutzung: /cc <bind|unbind|reload|reset|setcookie|addcookie|setlevel>"
+
+# GUI-Item-Definitionen (Material + Name + Lore)
+gui-items:
+  info:
+    material: PAPER
+    name: "&e&lInfo &7& Cash Out"
+  settings:
+    material: COMPARATOR
+    name: "&b&lSettings"
+  levelup:
+    material: CHEST
+    name: "&d&lLevel Upgrade"
