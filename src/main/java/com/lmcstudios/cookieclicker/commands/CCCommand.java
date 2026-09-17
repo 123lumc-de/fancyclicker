@@ -14,7 +14,6 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class CCCommand implements CommandExecutor, TabCompleter {
@@ -105,12 +104,13 @@ public class CCCommand implements CommandExecutor, TabCompleter {
             return;
         }
         Long amount = parseLong(args[2]);
-        if (amount == null) {
+        if (amount == null || amount < 0) {
             sender.sendMessage(prefix() + color(plugin.msg("invalid-number")));
             return;
         }
         PlayerData data = plugin.getDataManager().get(target);
         data.setCookies(amount);
+        plugin.getDataManager().saveAll();
         sender.sendMessage(prefix() + color(plugin.msg("setcookie-success")
                 .replace("%player%", displayName(target))
                 .replace("%amount%", String.valueOf(amount))));
@@ -128,12 +128,13 @@ public class CCCommand implements CommandExecutor, TabCompleter {
             return;
         }
         Long amount = parseLong(args[2]);
-        if (amount == null) {
+        if (amount == null || amount <= 0) {
             sender.sendMessage(prefix() + color(plugin.msg("invalid-number")));
             return;
         }
         PlayerData data = plugin.getDataManager().get(target);
         data.addCookies(amount);
+        plugin.getDataManager().saveAll();
         sender.sendMessage(prefix() + color(plugin.msg("addcookie-success")
                 .replace("%player%", displayName(target))
                 .replace("%amount%", String.valueOf(amount))));
@@ -157,6 +158,7 @@ public class CCCommand implements CommandExecutor, TabCompleter {
         }
         PlayerData data = plugin.getDataManager().get(target);
         data.setLevel(level);
+        plugin.getDataManager().saveAll();
         sender.sendMessage(prefix() + color(plugin.msg("setlevel-success")
                 .replace("%player%", displayName(target))
                 .replace("%level%", String.valueOf(level))));
