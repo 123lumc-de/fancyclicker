@@ -13,12 +13,12 @@ items:
       - ""
       - "&8Rechtsklick ≫ #25FF95Cash Out"
 
-  settings:
-    material: COMPARATOR
-    name: "#25FF95Settings"
-    lore:
-      - "&8・Rechtsklick ≫ #25FF95Cookie Clicker"
-      - "&8・Linksklick ≫ #25FF95Menu"
+settings:
+  material: COMPARATOR
+  name: "#25FF95Settings"
+  lore:
+    - "&8・Rechtsklick ≫ #25FF95%rc_action%"
+    - "&8・Linksklick ≫ #25FF95%lc_action%"
 
   levelup:
     material: CHEST
