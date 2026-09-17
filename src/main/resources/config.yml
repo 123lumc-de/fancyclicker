@@ -1,50 +1,34 @@
-# CookieClicker Konfiguration
-
 gui:
-  title: "&8&lCookie Clicker"
+  title: "&8Cookie Clicker"
   size: 27
 
-# Formel fuer Kosten des naechsten Levels: base-cost * level
 level-up:
   base-cost: 5000
 
-# Economy (Vault). Wenn false, ist Cash-Out deaktiviert.
 economy:
   enabled: true
   cookies-per-money: 100.0
 
 sounds:
-  click: BLOCK_STONE_BREAK
+  click: BLOCK_STONE_HIT
   levelup: ENTITY_PLAYER_LEVELUP
   cashout: ENTITY_EXPERIENCE_ORB_PICKUP
 
 messages:
-  prefix: "&8[&6CookieClicker&8] &r"
-  no-permission: "&cDu hast keine Berechtigung dafuer."
-  bind-look-at-block: "&cSchau auf einen Block, um ihn zu binden."
-  bind-success: "&aCookie-Block wurde gebunden!"
-  unbind-success: "&aCookie-Block wurde entfernt."
-  unbind-none: "&cEs ist aktuell kein Cookie-Block gebunden."
-  reload-success: "&aKonfiguration wurde neu geladen."
-  reset-success: "&aDaten von %player% wurden zurueckgesetzt."
-  setcookie-success: "&aCookies von %player% auf %amount% gesetzt."
-  addcookie-success: "&a%amount% Cookies zu %player% hinzugefuegt."
-  setlevel-success: "&aLevel von %player% auf %level% gesetzt."
-  player-not-found: "&cSpieler nicht gefunden oder nie online gewesen."
-  invalid-number: "&cUngueltige Zahl."
-  cashout-none: "&cDu hast keine Cookies zum Einloesen."
-  cashout-success: "&aDu hast %cookies% Cookies gegen %money% eingeloest."
-  cashout-no-economy: "&cKein Wirtschaftssystem (Vault) verfuegbar."
-  usage: "&cNutzung: /cc <bind|unbind|reload|reset|setcookie|addcookie|setlevel>"
-
-# GUI-Item-Definitionen (Material + Name + Lore)
-gui-items:
-  info:
-    material: PAPER
-    name: "&e&lInfo &7& Cash Out"
-  settings:
-    material: COMPARATOR
-    name: "&b&lSettings"
-  levelup:
-    material: CHEST
-    name: "&d&lLevel Upgrade"
+  prefix: "&8[#25FF95CookieClicker&8] &f"
+  no-permission: "&7Du hast keine Berechtigung dafuer."
+  bind-look-at-block: "&7Schau auf einen Block, um ihn zu binden."
+  bind-success: "&7Cookie-Block wurde gebunden."
+  unbind-success: "&7Cookie-Block wurde entfernt."
+  unbind-none: "&7Es ist aktuell kein Cookie-Block gebunden."
+  reload-success: "&7Konfiguration wurde neu geladen."
+  reset-success: "&7Daten von %player% wurden zurueckgesetzt."
+  setcookie-success: "&7Cookies von %player% auf #25FF95%amount% &7gesetzt."
+  addcookie-success: "&7#25FF95%amount% &7Cookies zu %player% hinzugefuegt."
+  setlevel-success: "&7Level von %player% auf #25FF95%level% &7gesetzt."
+  player-not-found: "&7Spieler nicht gefunden oder nie online gewesen."
+  invalid-number: "&7Ungueltige Zahl."
+  cashout-none: "&7Du hast keine Cookies zum Einloesen."
+  cashout-success: "&7Du hast #25FF95%cookies% &7Cookies gegen #25FF95%money% &7eingeloest."
+  cashout-no-economy: "&7Kein Wirtschaftssystem (Vault) verfuegbar."
+  usage: "&7Nutzung: /cc <bind|unbind|reload|reset|setcookie|addcookie|setlevel>"
