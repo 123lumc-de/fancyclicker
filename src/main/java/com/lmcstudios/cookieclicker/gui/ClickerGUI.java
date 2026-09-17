@@ -3,13 +3,13 @@ package com.lmcstudios.cookieclicker.gui;
 import com.lmcstudios.cookieclicker.CookieClickerPlugin;
 import com.lmcstudios.cookieclicker.data.PlayerData;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,10 @@ public class ClickerGUI {
     public Inventory build(Player player) {
         int size = plugin.getConfig().getInt("gui.size", 27);
         String title = color(plugin.getConfig().getString("gui.title", "&8Cookie Clicker"));
-        Inventory inv = Bukkit.createInventory(new CookieHolder(), size, title);
+
+        CookieHolder holder = new CookieHolder();
+        Inventory inv = Bukkit.createInventory(holder, size, title);
+        holder.setInventory(inv);
 
         ItemStack filler = namedItem(Material.GRAY_STAINED_GLASS_PANE, " ", null);
         for (int i = 0; i < size; i++) {
@@ -100,11 +103,17 @@ public class ClickerGUI {
         return ChatColor.translateAlternateColorCodes('&', s);
     }
 
-    /** Marker-Klasse, um GUI-Inventare eindeutig zu erkennen. */
+    /** Marker-Holder, um GUI-Inventare eindeutig zu erkennen. */
     public static class CookieHolder implements org.bukkit.inventory.InventoryHolder {
+        private Inventory inventory;
+
         @Override
         public Inventory getInventory() {
-            return null;
+            return inventory;
+        }
+
+        public void setInventory(Inventory inventory) {
+            this.inventory = inventory;
         }
     }
 }
