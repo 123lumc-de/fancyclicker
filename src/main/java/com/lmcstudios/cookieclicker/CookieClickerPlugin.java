@@ -42,7 +42,9 @@ public class CookieClickerPlugin extends JavaPlugin {
             getLogger().info("PlaceholderAPI gefunden - Placeholder registriert (%cookieclicker_total%, %cookieclicker_currently%, %cookieclicker_level%).");
         }
 
-        if (!economyManager.isAvailable()) {
+        if (!getConfig().getBoolean("economy.enabled", true)) {
+            getLogger().info("Cash-Out ist in der config.yml deaktiviert.");
+        } else if (!economyManager.isAvailable()) {
             getLogger().warning("Vault/Economy nicht gefunden - Cash-Out ist deaktiviert bis eine Economy verfuegbar ist.");
         }
 
@@ -53,6 +55,9 @@ public class CookieClickerPlugin extends JavaPlugin {
     public void onDisable() {
         if (dataManager != null) {
             dataManager.saveAll();
+        }
+        if (bindManager != null) {
+            bindManager.save();
         }
         getLogger().info("CookieClicker wurde deaktiviert.");
     }
