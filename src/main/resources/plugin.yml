@@ -1,21 +1,13 @@
-name: CookieClicker
+name: FancyClicker
 version: '${project.version}'
-main: com.lmcstudios.cookieclicker.CookieClickerPlugin
+main: com.lmcstudios.fancyclicker.FancyClickerPlugin
 api-version: '26.1.2'
 author: lmc Studios
 description: Ein moderner Cookie-Clicker fuer deinen Minecraft-Server.
 softdepend: [Vault, PlaceholderAPI]
 
 commands:
-  cc:
-    description: Hauptbefehl von CookieClicker.
-    usage: /cc <bind|unbind|reload|reset|setcookie|addcookie|setlevel>
-    aliases: [cookieclicker]
-
-permissions:
-  cookieclicker.use:
-    description: Erlaubt das Benutzen des Cookie-Clicker-Blocks.
-    default: true
-  cookieclicker.admin:
-    description: Erlaubt Admin-Befehle.
-    default: op
+  fc:
+    description: Hauptbefehl von FancyClicker.
+    usage: /fc <bind|unbind|reload|reset|setcookie|addcookie|setlevel>
+    aliases: [fancyclicker]
