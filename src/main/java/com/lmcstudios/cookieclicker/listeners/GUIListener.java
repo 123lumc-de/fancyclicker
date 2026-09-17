@@ -27,6 +27,10 @@ public class GUIListener implements Listener {
         player.openInventory(inv);
     }
 
+    public void reloadGui() {
+        gui.loadGuiConfig();
+    }
+
     @EventHandler
     public void onClick(InventoryClickEvent event) {
         if (!(event.getInventory().getHolder() instanceof ClickerGUI.CookieHolder)) return;
@@ -42,10 +46,9 @@ public class GUIListener implements Listener {
 
         switch (slot) {
             case ClickerGUI.SLOT_INFO -> {
+                // Nur Rechtsklick löst Cash-Out aus, alles andere macht nichts
                 if (type == ClickType.RIGHT || type == ClickType.SHIFT_RIGHT) {
                     handleCashOut(player, data, event.getInventory());
-                } else {
-                    handleInfo(player, data);
                 }
             }
             case ClickerGUI.SLOT_SETTINGS -> handleToggle(player, data, event.getInventory());
@@ -54,54 +57,28 @@ public class GUIListener implements Listener {
         }
     }
 
-    private void handleInfo(Player player, PlayerData data) {
-        long perClick = ClickerGUI.clickValue(data.getLevel());
-        double rate = plugin.getConfig().getDouble("economy.cookies-per-money", 100.0);
-        double money = rate > 0 ? data.getCookies() / rate : 0;
-
-        player.sendMessage(prefix() + color("&6&l--- CookieClicker Info ---"));
-        player.sendMessage(prefix() + color("&7Cookies: &f" + data.getCookies()));
-        player.sendMessage(prefix() + color("&7Insgesamt: &f" + data.getTotalCookies()));
-        player.sendMessage(prefix() + color("&7Level: &f" + data.getLevel()));
-        player.sendMessage(prefix() + color("&7Pro Klick: &f" + perClick));
-        player.sendMessage(prefix() + color("&7Cash-Out-Wert: &f" + String.format("%.2f", money)));
-        player.sendMessage(prefix() + color("&7Modus: &f"
-                + (data.getPreference() == PlayerData.Preference.LEFT ? "Linksklick farmt" : "Rechtsklick farmt")));
-    }
-
     private void handleToggle(Player player, PlayerData data, Inventory inv) {
         data.togglePreference();
         plugin.getDataManager().saveAll();
         playSound(player, "click");
         gui.refresh(inv, player);
-        player.sendMessage(prefix() + color("&aModus gewechselt: &f"
-                + (data.getPreference() == PlayerData.Preference.LEFT
-                    ? "Linksklick farmt"
-                    : "Rechtsklick farmt")));
     }
 
     private void handleLevelUp(Player player, PlayerData data, Inventory inv) {
         long cost = gui.nextLevelCost(data.getLevel());
         if (!data.removeCookies(cost)) {
-            player.sendMessage(prefix() + color("&cDu hast nicht genug Cookies fuer das naechste Level."));
-            return;
+            return; // Kein Chat-Text, nur GUI-Status zeigt "Nicht genug Cookies"
         }
         data.levelUp();
         plugin.getDataManager().saveAll();
         playSound(player, "levelup");
         gui.refresh(inv, player);
-        player.sendMessage(prefix() + color("&aLevel-Up! Du bist jetzt Level &f" + data.getLevel() + "&a."));
     }
 
     private void handleCashOut(Player player, PlayerData data, Inventory inv) {
-        if (data.getCookies() <= 0) {
-            player.sendMessage(prefix() + color(plugin.msg("cashout-none")));
-            return;
-        }
-        if (!plugin.getConfig().getBoolean("economy.enabled", true) || !plugin.getEconomyManager().isAvailable()) {
-            player.sendMessage(prefix() + color(plugin.msg("cashout-no-economy")));
-            return;
-        }
+        if (data.getCookies() <= 0) return;
+        if (!plugin.getConfig().getBoolean("economy.enabled", true)
+                || !plugin.getEconomyManager().isAvailable()) return;
 
         double rate = plugin.getConfig().getDouble("economy.cookies-per-money", 100.0);
         long cookies = data.getCookies();
@@ -135,6 +112,25 @@ public class GUIListener implements Listener {
 
     private String color(String s) {
         if (s == null) return "";
+        s = translateHex(s);
         return ChatColor.translateAlternateColorCodes('&', s);
+    }
+
+    private String translateHex(String input) {
+        StringBuilder sb = new StringBuilder();
+        int i = 0;
+        while (i < input.length()) {
+            if (input.charAt(i) == '#' && i + 7 <= input.length()) {
+                String hex = input.substring(i + 1, i + 7);
+                if (hex.matches("[0-9a-fA-F]{6}")) {
+                    sb.append(net.md_5.bungee.api.ChatColor.of("#" + hex));
+                    i += 7;
+                    continue;
+                }
+            }
+            sb.append(input.charAt(i));
+            i++;
+        }
+        return sb.toString();
     }
 }
