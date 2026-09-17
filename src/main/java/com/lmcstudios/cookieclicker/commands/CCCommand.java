@@ -77,12 +77,12 @@ public class CCCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage(prefix() + color(plugin.msg("reload-success")));
     }
 
-    private void handleReset(CommandSender sender, String[] args) {
+    private void handleReload(CommandSender sender) {
         if (!requireAdmin(sender)) return;
-        if (args.length < 2) {
-            sender.sendMessage(prefix() + color(plugin.msg("usage")));
-            return;
-        }
+        plugin.reloadConfig();
+        plugin.getGuiListener().reloadGui();  // <-- NEU
+        sender.sendMessage(prefix() + color(plugin.msg("reload-success")));
+    }
         OfflinePlayer target = resolvePlayer(args[1]);
         if (target == null) {
             sender.sendMessage(prefix() + color(plugin.msg("player-not-found")));
