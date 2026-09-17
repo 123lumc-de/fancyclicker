@@ -11,15 +11,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
 public class GUIListener implements Listener {
 
     private final CookieClickerPlugin plugin;
     private final ClickerGUI gui;
-    private final Map<UUID, Inventory> openInventories = new HashMap<>();
 
     public GUIListener(CookieClickerPlugin plugin) {
         this.plugin = plugin;
@@ -28,7 +23,6 @@ public class GUIListener implements Listener {
 
     public void open(Player player) {
         Inventory inv = gui.build(player);
-        openInventories.put(player.getUniqueId(), inv);
         player.openInventory(inv);
     }
 
@@ -37,8 +31,7 @@ public class GUIListener implements Listener {
         if (!(event.getInventory().getHolder() instanceof ClickerGUI.CookieHolder)) return;
         event.setCancelled(true);
 
-        if (!(event.getWhoClicked() instanceof Player)) return;
-        Player player = (Player) event.getWhoClicked();
+        if (!(event.getWhoClicked() instanceof Player player)) return;
 
         int slot = event.getRawSlot();
         if (slot < 0 || slot >= event.getInventory().getSize()) return;
@@ -49,9 +42,7 @@ public class GUIListener implements Listener {
             case ClickerGUI.SLOT_COOKIE -> handleCookieClick(player, data, event.getInventory());
             case ClickerGUI.SLOT_LEVELUP -> handleLevelUp(player, data, event.getInventory());
             case ClickerGUI.SLOT_CASHOUT -> handleCashOut(player, data, event.getInventory());
-            default -> {
-                // Deko-Slot, nichts tun
-            }
+            default -> { /* Deko-Slot, nichts tun */ }
         }
     }
 
@@ -65,8 +56,7 @@ public class GUIListener implements Listener {
     private void handleLevelUp(Player player, PlayerData data, Inventory inv) {
         long cost = gui.nextLevelCost(data.getLevel());
         if (!data.removeCookies(cost)) {
-            player.sendMessage(color(plugin.getConfig().getString("messages.prefix", "")) +
-                    color("&cDu hast nicht genug Cookies fuer das naechste Level."));
+            player.sendMessage(prefix() + color("&cDu hast nicht genug Cookies fuer das naechste Level."));
             return;
         }
         data.levelUp();
@@ -76,11 +66,11 @@ public class GUIListener implements Listener {
 
     private void handleCashOut(Player player, PlayerData data, Inventory inv) {
         if (data.getCookies() <= 0) {
-            player.sendMessage(color(plugin.getConfig().getString("messages.prefix", "")) + color(plugin.msg("cashout-none")));
+            player.sendMessage(prefix() + color(plugin.msg("cashout-none")));
             return;
         }
         if (!plugin.getConfig().getBoolean("economy.enabled", true) || !plugin.getEconomyManager().isAvailable()) {
-            player.sendMessage(color(plugin.getConfig().getString("messages.prefix", "")) + color(plugin.msg("cashout-no-economy")));
+            player.sendMessage(prefix() + color(plugin.msg("cashout-no-economy")));
             return;
         }
 
@@ -95,7 +85,7 @@ public class GUIListener implements Listener {
         String message = plugin.msg("cashout-success")
                 .replace("%cookies%", String.valueOf(cookies))
                 .replace("%money%", plugin.getEconomyManager().format(money));
-        player.sendMessage(color(plugin.getConfig().getString("messages.prefix", "")) + color(message));
+        player.sendMessage(prefix() + color(message));
 
         gui.refresh(inv, player);
     }
@@ -107,8 +97,12 @@ public class GUIListener implements Listener {
             Sound sound = Sound.valueOf(soundName);
             player.playSound(player.getLocation(), sound, 1f, 1f);
         } catch (IllegalArgumentException ignored) {
-            // ungueltiger Sound-Name in der config.yml, einfach ignorieren
+            // ungueltiger Sound-Name in config.yml, einfach ignorieren
         }
+    }
+
+    private String prefix() {
+        return color(plugin.getConfig().getString("messages.prefix", ""));
     }
 
     private String color(String s) {
