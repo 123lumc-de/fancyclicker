@@ -8,6 +8,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
@@ -37,20 +38,46 @@ public class GUIListener implements Listener {
         if (slot < 0 || slot >= event.getInventory().getSize()) return;
 
         PlayerData data = plugin.getDataManager().get(player);
+        ClickType type = event.getClick();
 
         switch (slot) {
-            case ClickerGUI.SLOT_COOKIE -> handleCookieClick(player, data, event.getInventory());
+            case ClickerGUI.SLOT_INFO -> {
+                if (type == ClickType.RIGHT || type == ClickType.SHIFT_RIGHT) {
+                    handleCashOut(player, data, event.getInventory());
+                } else {
+                    handleInfo(player, data);
+                }
+            }
+            case ClickerGUI.SLOT_SETTINGS -> handleToggle(player, data, event.getInventory());
             case ClickerGUI.SLOT_LEVELUP -> handleLevelUp(player, data, event.getInventory());
-            case ClickerGUI.SLOT_CASHOUT -> handleCashOut(player, data, event.getInventory());
-            default -> { /* Deko-Slot, nichts tun */ }
+            default -> { /* Deko */ }
         }
     }
 
-    private void handleCookieClick(Player player, PlayerData data, Inventory inv) {
-        long value = ClickerGUI.clickValue(data.getLevel());
-        data.addCookies(value);
+    private void handleInfo(Player player, PlayerData data) {
+        long perClick = ClickerGUI.clickValue(data.getLevel());
+        double rate = plugin.getConfig().getDouble("economy.cookies-per-money", 100.0);
+        double money = rate > 0 ? data.getCookies() / rate : 0;
+
+        player.sendMessage(prefix() + color("&6&l--- CookieClicker Info ---"));
+        player.sendMessage(prefix() + color("&7Cookies: &f" + data.getCookies()));
+        player.sendMessage(prefix() + color("&7Insgesamt: &f" + data.getTotalCookies()));
+        player.sendMessage(prefix() + color("&7Level: &f" + data.getLevel()));
+        player.sendMessage(prefix() + color("&7Pro Klick: &f" + perClick));
+        player.sendMessage(prefix() + color("&7Cash-Out-Wert: &f" + String.format("%.2f", money)));
+        player.sendMessage(prefix() + color("&7Modus: &f"
+                + (data.getPreference() == PlayerData.Preference.LEFT ? "Linksklick farmt" : "Rechtsklick farmt")));
+    }
+
+    private void handleToggle(Player player, PlayerData data, Inventory inv) {
+        data.togglePreference();
+        plugin.getDataManager().saveAll();
         playSound(player, "click");
         gui.refresh(inv, player);
+        player.sendMessage(prefix() + color("&aModus gewechselt: &f"
+                + (data.getPreference() == PlayerData.Preference.LEFT
+                    ? "Linksklick farmt"
+                    : "Rechtsklick farmt")));
     }
 
     private void handleLevelUp(Player player, PlayerData data, Inventory inv) {
@@ -60,8 +87,10 @@ public class GUIListener implements Listener {
             return;
         }
         data.levelUp();
+        plugin.getDataManager().saveAll();
         playSound(player, "levelup");
         gui.refresh(inv, player);
+        player.sendMessage(prefix() + color("&aLevel-Up! Du bist jetzt Level &f" + data.getLevel() + "&a."));
     }
 
     private void handleCashOut(Player player, PlayerData data, Inventory inv) {
@@ -80,6 +109,7 @@ public class GUIListener implements Listener {
 
         data.setCookies(0);
         plugin.getEconomyManager().deposit(player, money);
+        plugin.getDataManager().saveAll();
         playSound(player, "cashout");
 
         String message = plugin.msg("cashout-success")
@@ -96,9 +126,7 @@ public class GUIListener implements Listener {
         try {
             Sound sound = Sound.valueOf(soundName);
             player.playSound(player.getLocation(), sound, 1f, 1f);
-        } catch (IllegalArgumentException ignored) {
-            // ungueltiger Sound-Name in config.yml, einfach ignorieren
-        }
+        } catch (IllegalArgumentException ignored) { }
     }
 
     private String prefix() {
