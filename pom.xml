@@ -10,16 +10,9 @@
     <packaging>jar</packaging>
 
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <java.version>25</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!--
-            Paper hat sein Versionsschema umgestellt: statt "1.26.1-R0.1-SNAPSHOT"
-            heisst es jetzt "26.1.2.build.<nummer>-stable" - 26.1.2 ist eine
-            reguläre Release-Version, kein Snapshot. Die Version unten als
-            Bereich [26.1.2.build,) laesst Maven automatisch den neuesten
-            verfuegbaren Build fuer diese Release-Version verwenden.
-        -->
+        <!-- Paper 26.1.2 - Bereichsversion zieht automatisch den neuesten Build -->
         <paper.version>[26.1.2.build,)</paper.version>
     </properties>
 
@@ -52,6 +45,12 @@
             <artifactId>VaultAPI</artifactId>
             <version>1.7</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.bukkit</groupId>
+                    <artifactId>bukkit</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- PlaceholderAPI -->
@@ -71,6 +70,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
+                <configuration>
+                    <release>${java.version}</release>
+                </configuration>
             </plugin>
         </plugins>
     </build>
