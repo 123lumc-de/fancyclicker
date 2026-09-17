@@ -26,14 +26,11 @@ public class InteractListener implements Listener {
         Player player = event.getPlayer();
 
         if (!player.hasPermission("cookieclicker.use")) {
-            player.sendMessage(color(plugin.msg("no-permission")));
+            player.sendMessage(color(plugin.getConfig().getString("messages.prefix", "")) + color(plugin.msg("no-permission")));
             return;
         }
 
         plugin.getGuiListener().open(player);
     }
 
-    private String color(String s) {
-        return ChatColor.translateAlternateColorCodes('&', s);
-    }
-}
+    private String color(String s
