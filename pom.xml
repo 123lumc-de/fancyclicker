@@ -12,7 +12,6 @@
     <properties>
         <java.version>25</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- Paper 26.1.2 - Bereichsversion zieht automatisch den neuesten Build -->
         <paper.version>[26.1.2.build,)</paper.version>
     </properties>
 
@@ -39,7 +38,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Vault (Economy) -->
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
             <artifactId>VaultAPI</artifactId>
@@ -53,7 +51,6 @@
             </exclusions>
         </dependency>
 
-        <!-- PlaceholderAPI -->
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
