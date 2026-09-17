@@ -46,10 +46,10 @@ public class GUIListener implements Listener {
 
         switch (slot) {
             case ClickerGUI.SLOT_INFO -> {
-                // Nur Rechtsklick löst Cash-Out aus, alles andere macht nichts
                 if (type == ClickType.RIGHT || type == ClickType.SHIFT_RIGHT) {
                     handleCashOut(player, data, event.getInventory());
                 }
+                // Linksklick macht NICHTS mehr (Info-Nachricht wurde entfernt)
             }
             case ClickerGUI.SLOT_SETTINGS -> handleToggle(player, data, event.getInventory());
             case ClickerGUI.SLOT_LEVELUP -> handleLevelUp(player, data, event.getInventory());
@@ -66,9 +66,12 @@ public class GUIListener implements Listener {
 
     private void handleLevelUp(Player player, PlayerData data, Inventory inv) {
         long cost = gui.nextLevelCost(data.getLevel());
+
         if (!data.removeCookies(cost)) {
-            return; // Kein Chat-Text, nur GUI-Status zeigt "Nicht genug Cookies"
+            player.sendMessage(prefix() + color("&7Du hast nicht genug Cookies fuer das naechste Level."));
+            return;
         }
+
         data.levelUp();
         plugin.getDataManager().saveAll();
         playSound(player, "levelup");
@@ -76,9 +79,15 @@ public class GUIListener implements Listener {
     }
 
     private void handleCashOut(Player player, PlayerData data, Inventory inv) {
-        if (data.getCookies() <= 0) return;
+        if (data.getCookies() <= 0) {
+            player.sendMessage(prefix() + color(plugin.msg("cashout-none")));
+            return;
+        }
         if (!plugin.getConfig().getBoolean("economy.enabled", true)
-                || !plugin.getEconomyManager().isAvailable()) return;
+                || !plugin.getEconomyManager().isAvailable()) {
+            player.sendMessage(prefix() + color(plugin.msg("cashout-no-economy")));
+            return;
+        }
 
         double rate = plugin.getConfig().getDouble("economy.cookies-per-money", 100.0);
         long cookies = data.getCookies();
