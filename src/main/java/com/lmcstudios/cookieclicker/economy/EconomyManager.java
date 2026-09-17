@@ -2,8 +2,8 @@ package com.lmcstudios.cookieclicker.economy;
 
 import com.lmcstudios.cookieclicker.CookieClickerPlugin;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class EconomyManager {
@@ -16,7 +16,7 @@ public class EconomyManager {
         setup();
     }
 
-    private boolean setup() {
+    public boolean setup() {
         if (Bukkit.getPluginManager().getPlugin("Vault") == null) {
             return false;
         }
@@ -29,6 +29,9 @@ public class EconomyManager {
     }
 
     public boolean isAvailable() {
+        if (economy == null) {
+            setup(); // Late-Binding: Vault kann spaeter geladen werden
+        }
         return economy != null;
     }
 
