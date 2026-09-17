@@ -39,13 +39,13 @@ public class CookieClickerPlugin extends JavaPlugin {
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new CookieClickerExpansion(this).register();
-            getLogger().info("PlaceholderAPI gefunden - Placeholder registriert (%cookieclicker_total%, %cookieclicker_currently%, %cookieclicker_level%).");
+            getLogger().info("PlaceholderAPI gefunden - Placeholder registriert.");
         }
 
         if (!getConfig().getBoolean("economy.enabled", true)) {
             getLogger().info("Cash-Out ist in der config.yml deaktiviert.");
         } else if (!economyManager.isAvailable()) {
-            getLogger().warning("Vault/Economy nicht gefunden - Cash-Out ist deaktiviert bis eine Economy verfuegbar ist.");
+            getLogger().warning("Vault/Economy nicht gefunden - Cash-Out ist deaktiviert.");
         }
 
         getLogger().info("CookieClicker wurde aktiviert.");
@@ -53,12 +53,8 @@ public class CookieClickerPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        if (dataManager != null) {
-            dataManager.saveAll();
-        }
-        if (bindManager != null) {
-            bindManager.save();
-        }
+        if (dataManager != null) dataManager.saveAll();
+        if (bindManager != null) bindManager.save();
         getLogger().info("CookieClicker wurde deaktiviert.");
     }
 
@@ -66,19 +62,8 @@ public class CookieClickerPlugin extends JavaPlugin {
         return getConfig().getString("messages." + key, key);
     }
 
-    public DataManager getDataManager() {
-        return dataManager;
-    }
-
-    public BindManager getBindManager() {
-        return bindManager;
-    }
-
-    public EconomyManager getEconomyManager() {
-        return economyManager;
-    }
-
-    public GUIListener getGuiListener() {
-        return guiListener;
-    }
+    public DataManager getDataManager() { return dataManager; }
+    public BindManager getBindManager() { return bindManager; }
+    public EconomyManager getEconomyManager() { return economyManager; }
+    public GUIListener getGuiListener() { return guiListener; }
 }
