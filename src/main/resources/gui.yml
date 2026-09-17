@@ -1,0 +1,31 @@
+# CookieClicker GUI-Konfiguration
+# Farben: &f = weiß, &7 = grau, &8 = dunkelgrau, #25FF95 = grün (Hex)
+# Wichtig: KEINE fette Schrift verwenden! (&l weglassen)
+
+items:
+  info:
+    material: PAPER
+    name: "#25FF95Cash Out"
+    lore:
+      - "&7・Cookies: #25FF95%cookies%"
+      - "&7・Pro Klick: #25FF95%perclick%"
+      - "&7・Money: #25FF95%money%"
+      - ""
+      - "&8Rechtsklick ≫ #25FF95Cash Out"
+
+  settings:
+    material: COMPARATOR
+    name: "#25FF95Settings"
+    lore:
+      - "&8・Rechtsklick ≫ #25FF95Cookie Clicker"
+      - "&8・Linksklick ≫ #25FF95Menu"
+
+  levelup:
+    material: CHEST
+    name: "#25FF95Cookies Level %level%"
+    lore:
+      - "&7・Kaufe mehr Cookies pro Klick:"
+      - "&7・Level: #25FF95%nextlevel%"
+      - "&7・Preis: #25FF95%price% Cookies"
+      - ""
+      - "%status%"
