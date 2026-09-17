@@ -14,10 +14,25 @@ public class CookieClickerExpansion extends PlaceholderExpansion {
         this.plugin = plugin;
     }
 
-    @Override public @NotNull String getIdentifier() { return "cookieclicker"; }
-    @Override public @NotNull String getAuthor() { return "lmc Studios"; }
-    @Override public @NotNull String getVersion() { return plugin.getDescription().getVersion(); }
-    @Override public boolean persist() { return true; }
+    @Override
+    public @NotNull String getIdentifier() {
+        return "cookieclicker";
+    }
+
+    @Override
+    public @NotNull String getAuthor() {
+        return "lmc Studios";
+    }
+
+    @Override
+    public @NotNull String getVersion() {
+        return plugin.getDescription().getVersion();
+    }
+
+    @Override
+    public boolean persist() {
+        return true;
+    }
 
     @Override
     public String onRequest(OfflinePlayer player, @NotNull String params) {
@@ -28,7 +43,7 @@ public class CookieClickerExpansion extends PlaceholderExpansion {
             case "total" -> String.valueOf(data.getTotalCookies());
             case "currently" -> String.valueOf(data.getCookies());
             case "level" -> String.valueOf(data.getLevel());
-            case "perclick" -> String.valueOf(PlayerData.class.cast(data).getLevel());
+            case "perclick" -> String.valueOf(data.getLevel());
             default -> null;
         };
     }
