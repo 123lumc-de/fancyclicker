@@ -30,8 +30,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: CookieClicker
-          path: target/CookieClicker-*.jar
+          name: FancyClicker
+          path: target/FancyClicker-*.jar
           if-no-files-found: error
 
   release:
@@ -58,5 +58,5 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          files: target/CookieClicker-*.jar
+          files: target/FancyClicker-*.jar
           generate_release_notes: true
