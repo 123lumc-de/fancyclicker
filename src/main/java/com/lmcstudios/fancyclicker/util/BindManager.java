@@ -4,17 +4,20 @@ import com.lmcstudios.fancyclicker.FancyClickerPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 public class BindManager {
 
     private final FancyClickerPlugin plugin;
     private final File file;
-    private Location boundLocation;
+    private final Set<String> boundBlocks = new HashSet<>();
 
     public BindManager(FancyClickerPlugin plugin) {
         this.plugin = plugin;
@@ -22,28 +25,24 @@ public class BindManager {
         load();
     }
 
+    private String key(Location loc) {
+        return loc.getWorld().getName() + ";" + loc.getBlockX() + ";" + loc.getBlockY() + ";" + loc.getBlockZ();
+    }
+
     private void load() {
         if (!file.exists()) return;
         FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
-        if (!cfg.contains("world")) return;
-        World world = Bukkit.getWorld(cfg.getString("world"));
-        if (world == null) {
-            plugin.getLogger().warning("Gebundene Welt nicht gefunden. Bindung ignoriert.");
-            return;
+        ConfigurationSection section = cfg.getConfigurationSection("blocks");
+        if (section == null) return;
+        for (String key : section.getKeys(false)) {
+            boundBlocks.add(key);
         }
-        int x = cfg.getInt("x");
-        int y = cfg.getInt("y");
-        int z = cfg.getInt("z");
-        boundLocation = new Location(world, x, y, z);
     }
 
     public void save() {
         FileConfiguration cfg = new YamlConfiguration();
-        if (boundLocation != null) {
-            cfg.set("world", boundLocation.getWorld().getName());
-            cfg.set("x", boundLocation.getBlockX());
-            cfg.set("y", boundLocation.getBlockY());
-            cfg.set("z", boundLocation.getBlockZ());
+        for (String key : boundBlocks) {
+            cfg.set("blocks." + key, true);
         }
         try {
             plugin.getDataFolder().mkdirs();
@@ -54,28 +53,35 @@ public class BindManager {
     }
 
     public boolean isBound() {
-        return boundLocation != null;
+        return !boundBlocks.isEmpty();
     }
 
     public boolean isBoundBlock(Location location) {
-        if (boundLocation == null || location == null) return false;
-        if (!boundLocation.getWorld().equals(location.getWorld())) return false;
-        return boundLocation.getBlockX() == location.getBlockX()
-                && boundLocation.getBlockY() == location.getBlockY()
-                && boundLocation.getBlockZ() == location.getBlockZ();
+        if (location == null || location.getWorld() == null) return false;
+        return boundBlocks.contains(key(location));
     }
 
     public void bind(Location location) {
-        this.boundLocation = location.clone();
+        boundBlocks.add(key(location));
         save();
     }
 
-    public void unbind() {
-        this.boundLocation = null;
+    public void unbind(Location location) {
+        boundBlocks.remove(key(location));
         save();
     }
 
-    public Location getBoundLocation() {
-        return boundLocation;
+    /** Entfernt alle Bindungen. */
+    public void unbindAll() {
+        boundBlocks.clear();
+        save();
+    }
+
+    public int getBoundCount() {
+        return boundBlocks.size();
+    }
+
+    public Set<String> getAllKeys() {
+        return new HashSet<>(boundBlocks);
     }
 }

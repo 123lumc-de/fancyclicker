@@ -34,3 +34,5 @@ messages:
   cashout-success: "&7Du hast #25FF95%cookies% &7Cookies gegen #25FF95%money% &7eingelöst."
   cashout-no-economy: "&7Kein Wirtschaftssystem (Vault) verfügbar."
   usage: "&7Nutzung: /fc <bind|unbind|reload|reset|setcookie|addcookie|setlevel>"
+  unbind-all-success: "&7Alle &f%count% &7Bindungen wurden entfernt."
+  bind-all-count: "&7Es sind aktuell &f%count% &7Blöcke gebunden."

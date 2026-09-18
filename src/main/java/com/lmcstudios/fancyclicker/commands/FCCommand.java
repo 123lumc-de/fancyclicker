@@ -57,8 +57,13 @@ public class FCCommand implements CommandExecutor, TabCompleter {
             player.sendMessage(prefix() + color(plugin.msg("bind-look-at-block")));
             return;
         }
+        if (plugin.getBindManager().isBoundBlock(target.getLocation())) {
+            player.sendMessage(prefix() + color("&7Dieser Block ist bereits gebunden."));
+            return;
+        }
         plugin.getBindManager().bind(target.getLocation());
-        player.sendMessage(prefix() + color(plugin.msg("bind-success")));
+        player.sendMessage(prefix() + color(plugin.msg("bind-success")
+                .replace("%count%", String.valueOf(plugin.getBindManager().getBoundCount()))));
     }
 
     private void handleUnbind(CommandSender sender) {
@@ -67,8 +72,24 @@ public class FCCommand implements CommandExecutor, TabCompleter {
             sender.sendMessage(prefix() + color(plugin.msg("unbind-none")));
             return;
         }
-        plugin.getBindManager().unbind();
-        sender.sendMessage(prefix() + color(plugin.msg("unbind-success")));
+
+        // Wenn Spieler auf einen gebundenen Block schaut -> nur diesen entfernen
+        if (sender instanceof Player player) {
+            Block target = player.getTargetBlockExact(6);
+            if (target != null && !target.getType().isAir()
+                    && plugin.getBindManager().isBoundBlock(target.getLocation())) {
+                plugin.getBindManager().unbind(target.getLocation());
+                player.sendMessage(prefix() + color(plugin.msg("unbind-success")
+                        .replace("%count%", String.valueOf(plugin.getBindManager().getBoundCount()))));
+                return;
+            }
+        }
+
+        // Sonst: alle Bindungen entfernen
+        int count = plugin.getBindManager().getBoundCount();
+        plugin.getBindManager().unbindAll();
+        sender.sendMessage(prefix() + color(plugin.msg("unbind-all-success")
+                .replace("%count%", String.valueOf(count))));
     }
 
     private void handleReload(CommandSender sender) {

@@ -1,66 +1,110 @@
-# CookieClicker Plugin
+# FancyClicker
 
-Ein Cookie-Clicker-Plugin für Paper. Ein Block wird als "Cookie-Block" gebunden;
-Rechtsklick darauf öffnet eine GUI zum Cookie-Sammeln, Leveln und Auszahlen.
+Ein moderner Cookie-Clicker für Paper. Beliebig viele Blöcke können als
+Cookie-Clicker gebunden werden; ein Rechtsklick oder Linksklick (je nach
+Spieler-Einstellung) farmt Cookies, die andere Maustaste öffnet die GUI
+zum Leveln und Auszahlen.
 
 ## Bauen
 
-Voraussetzungen: Java 21, Maven, Internetzugang (für Paper-API, Vault-API, PlaceholderAPI-Dependency).
+Voraussetzungen: Java 25, Maven, Internetzugang (für Paper-API, Vault-API,
+PlaceholderAPI, bStats).
 
 ```
 mvn clean package
 ```
 
-Die fertige JAR liegt danach unter `target/CookieClicker-1.0.0.jar`.
 
-**Wichtig:** In `pom.xml` steht als Platzhalter die Paper-API-Version
-`1.26.1-R0.1-SNAPSHOT`. Falls diese Version noch nicht im PaperMC-Repository
-verfügbar ist (z. B. weil 1.26.1 erst kürzlich erschienen ist), trage dort
-die exakte Version ein, die unter
+Die fertige JAR liegt danach unter `target/FancyClicker-1.0.0.jar`.
+
+**Wichtig:** In `pom.xml` steht die Paper-API-Version als Bereich
+`[26.1.2.build,)`. Falls diese Version nicht verfügbar ist, kannst du dort
+eine exakte Version eintragen, z. B. `26.1.2.build.74-stable`. Verfügbare
+Versionen:
 https://repo.papermc.io/#browse/browse:maven-releases:io%2Fpapermc%2Fpaper%2Fpaper-api
-gelistet ist.
 
 ## Abhängigkeiten (Soft-Dependencies)
 
-- **Vault** – wird für das "Cash-Out" (Cookies gegen Geld) benötigt. Ohne Vault
-  funktioniert der Rest des Plugins normal, nur Cash-Out ist deaktiviert.
-- **PlaceholderAPI** – wird für die Placeholder benötigt. Ohne PAPI wird
-  die Expansion einfach nicht registriert.
-
-Für CoinsEngine / PlayerPoints (aus deiner Übersicht) ist aktuell kein
-fertiger Adapter enthalten, da deren APIs nicht öffentlich zugänglich
-gebaut werden konnten. `EconomyManager` ist so aufgebaut, dass du dort
-leicht einen weiteren Provider ergänzen kannst.
+- **Vault** – wird für das "Cash-Out" (Cookies gegen Geld) benötigt. Ohne
+  Vault funktioniert der Rest des Plugins normal, nur Cash-Out ist deaktiviert.
+- **PlaceholderAPI** – wird für die Placeholder benötigt. Ohne PAPI wird die
+  Expansion einfach nicht registriert.
 
 ## Befehle
 
 | Befehl | Beschreibung | Permission |
 |---|---|---|
-| `/cc bind` | Bindet den Block, auf den du schaust, als Cookie-Block | `cookieclicker.admin` |
-| `/cc unbind` | Entfernt die aktuelle Bindung | `cookieclicker.admin` |
-| `/cc reload` | Lädt die config.yml neu | `cookieclicker.admin` |
-| `/cc reset <player>` | Setzt die Daten eines Spielers zurück | `cookieclicker.admin` |
-| `/cc setcookie <player> <amount>` | Setzt die Cookie-Anzahl | `cookieclicker.admin` |
-| `/cc addcookie <player> <amount>` | Fügt Cookies hinzu | `cookieclicker.admin` |
-| `/cc setlevel <player> <level>` | Setzt das Level (= Cookies pro Klick) | `cookieclicker.admin` |
+| `/fc bind` | Bindet den Block, auf den du schaust, als Cookie-Block | `fancyclicker.admin` |
+| `/fc unbind` | Entfernt die Bindung des Blocks, auf den du schaust. Schaut der Spieler auf keinen gebundenen Block, werden **alle** Bindungen entfernt. | `fancyclicker.admin` |
+| `/fc reload` | Lädt `config.yml` und `gui.yml` neu | `fancyclicker.admin` |
+| `/fc reset <player>` | Setzt die Daten eines Spielers zurück | `fancyclicker.admin` |
+| `/fc setcookie <player> <amount>` | Setzt die Cookie-Anzahl | `fancyclicker.admin` |
+| `/fc addcookie <player> <amount>` | Fügt Cookies hinzu | `fancyclicker.admin` |
+| `/fc setlevel <player> <level>` | Setzt das Level (= Cookies pro Klick) | `fancyclicker.admin` |
 
-Spieler benötigen `cookieclicker.use` (Standard: jeder), um den gebundenen
-Block anzuklicken und die GUI zu benutzen.
+Spieler benötigen `fancyclicker.use` (Standard: jeder), um einen gebundenen
+Block zu farmen oder die GUI zu öffnen.
 
 ## Placeholder (PlaceholderAPI)
 
-- `%cookieclicker_total%` – insgesamt jemals gesammelte Cookies
-- `%cookieclicker_currently%` – aktueller Cookie-Bestand
-- `%cookieclicker_level%` – aktuelles Level
+Alle Placeholder funktionieren **pro Spieler** und werden über den
+Identifier `fancyclicker` angesprochen. Beispiel: `%fancyclicker_total%`.
+
+| Placeholder | Beschreibung |
+|---|---|
+| `%fancyclicker_currently%` | Aktueller Cookie-Bestand |
+| `%fancyclicker_total%` | Insgesamt jemals gesammelte Cookies |
+| `%fancyclicker_level%` | Aktuelles Level |
+| `%fancyclicker_perclick%` | Cookies pro Klick (= Level) |
+| `%fancyclicker_money%` | Cash-Out-Wert in Geld (exakt, 2 Nachkommastellen) |
+| `%fancyclicker_money_rounded%` | Cash-Out-Wert gerundet |
+| `%fancyclicker_nextlevel%` | Nächstes Level |
+| `%fancyclicker_nextcost%` | Preis für das nächste Level |
+| `%fancyclicker_preference%` | Aktueller Farm-Modus (`LEFT` oder `RIGHT`) |
+| `%fancyclicker_preference_friendly%` | Farm-Modus lesbar (`Linksklick` oder `Rechtsklick`) |
+
+**Beispiele:**
+
+- `&7Deine Cookies: &f%fancyclicker_currently%`
+- `&7Pro Klick: &f%fancyclicker_perclick%`
+- `&7Level: &f%fancyclicker_level%`
+- `&7Cash-Out: &f%fancyclicker_money%`
+- `&7Nächstes Level kostet: &f%fancyclicker_nextcost%`
+
+## GUI
+
+Die GUI wird über einen **Rechtsklick** oder **Linksklick** auf einen
+gebundenen Block geöffnet (je nach Spieler-Einstellung). Die Items und ihre
+Beschreibungen sind in `gui.yml` anpassbar.
+
+| Slot | Item | Aktion |
+|---|---|---|
+| 11 | Paper | Linksklick: Cash-Out · Rechtsklick: Info |
+| 13 | Comparator | Klick: Farm-Modus wechseln (Links-/Rechtsklick) |
+| 15 | Chest | Klick: Level-Up kaufen |
+
+**Farben in `gui.yml`:** `&f` (weiß), `&7` (grau), `&8` (dunkelgrau), `#25FF95` (Hex).
+Fette Schrift (`&l`) wird nicht verwendet.
 
 ## Ablauf
 
-1. Admin stellt sich vor einen beliebigen Block (z. B. einen Cookie-Block
-   oder Kuchen) und führt `/cc bind` aus.
-2. Spieler rechtsklicken diesen Block → die Cookie-Clicker-GUI öffnet sich.
-3. Im Cookie-Slot klicken → Cookies sammeln (Menge abhängig vom Level).
-4. Im Level-Slot klicken → Level kaufen (kostet Cookies, erhöht Cookies/Klick).
-5. Im Cash-Out-Slot klicken → Cookies werden gegen Geld eingelöst (Vault,
+1. Admin stellt sich vor einen beliebigen Block und führt `/fc bind` aus.
+   Das kann beliebig oft wiederholt werden – **jeder Block** wird zu einem
+   Cookie-Clicker.
+2. Spieler klickt den Block mit der eingestellten Maustaste → Cookies farmen.
+   Die andere Maustaste öffnet die GUI.
+3. In der GUI kann per Comparator zwischen Links-/Rechtsklick-Farm-Modus
+   gewechselt werden. Die Einstellung wird **pro Spieler** gespeichert.
+4. Im Chest-Slot klickt der Spieler, um ein Level zu kaufen (kostet Cookies,
+   erhöht Cookies/Klick).
+5. Im Paper-Slot (Linksklick) löst der Spieler Cash-Out aus (Vault,
    Kurs einstellbar in `config.yml` unter `economy.cookies-per-money`).
 
-Alle Texte, Sounds, GUI-Größe und Preise sind in `config.yml` anpassbar.
+Alle Texte, Sounds, GUI-Größe und Preise sind in `config.yml` und
+`gui.yml` anpassbar.
+
+## bStats
+
+FancyClicker nutzt bStats (ID **34103**), um anonyme Statistiken zu sammeln.
+Das kann in `plugins/bStats/config.yml` oder per JVM-Argument
+`-Dbstats.disabled=true` deaktiviert werden.
