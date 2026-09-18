@@ -14,8 +14,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class FancyClickerPlugin extends JavaPlugin {
 
-    // >>> HIER deine bStats-Plugin-ID eintragen! <<<
-    private static final int BSTATS_PLUGIN_ID = 12345;
+    // bStats-Plugin-ID
+    private static final int BSTATS_PLUGIN_ID = 34103;
 
     private DataManager dataManager;
     private BindManager bindManager;
@@ -53,26 +53,25 @@ public class FancyClickerPlugin extends JavaPlugin {
             getLogger().warning("Vault/Economy nicht gefunden - Cash-Out ist deaktiviert.");
         }
 
-        // bStats initialisieren
         setupBStats();
 
         getLogger().info("FancyClicker wurde aktiviert.");
     }
 
     private void setupBStats() {
-        if (BSTATS_PLUGIN_ID == 12345) {
-            getLogger().warning("bStats-Plugin-ID ist noch nicht gesetzt! Bitte in FancyClickerPlugin.java eintragen.");
-            return;
-        }
         Metrics metrics = new Metrics(this, BSTATS_PLUGIN_ID);
 
-        // Beispiel: Zeigt, wie viele Server Economy aktiviert haben
+        // Zeigt, ob Server Economy aktiviert haben
         metrics.addCustomChart(new SimplePie("economy_enabled", () ->
                 String.valueOf(getConfig().getBoolean("economy.enabled", true))));
 
-        // Beispiel: Zeigt die genutzte Server-Version
-        metrics.addCustomChart(new SimplePie("server_version", () ->
-                Bukkit.getVersion()));
+        // Zeigt die genutzte Minecraft-Version
+        metrics.addCustomChart(new SimplePie("minecraft_version", () ->
+                Bukkit.getMinecraftVersion()));
+
+        // Zeigt die Server-Software (Paper, Purpur, etc.)
+        metrics.addCustomChart(new SimplePie("server_software", () ->
+                Bukkit.getName()));
     }
 
     @Override
