@@ -1,8 +1,8 @@
-package com.lmcstudios.cookieclicker.listeners;
+package com.lmcstudios.fancyclicker.listeners;
 
-import com.lmcstudios.cookieclicker.CookieClickerPlugin;
-import com.lmcstudios.cookieclicker.data.PlayerData;
-import com.lmcstudios.cookieclicker.gui.ClickerGUI;
+import com.lmcstudios.fancyclicker.FancyClickerPlugin;
+import com.lmcstudios.fancyclicker.data.PlayerData;
+import com.lmcstudios.fancyclicker.gui.ClickerGUI;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -14,10 +14,10 @@ import org.bukkit.inventory.Inventory;
 
 public class GUIListener implements Listener {
 
-    private final CookieClickerPlugin plugin;
+    private final FancyClickerPlugin plugin;
     private final ClickerGUI gui;
 
-    public GUIListener(CookieClickerPlugin plugin) {
+    public GUIListener(FancyClickerPlugin plugin) {
         this.plugin = plugin;
         this.gui = new ClickerGUI(plugin);
     }
@@ -49,11 +49,10 @@ public class GUIListener implements Listener {
                 if (type == ClickType.RIGHT || type == ClickType.SHIFT_RIGHT) {
                     handleCashOut(player, data, event.getInventory());
                 }
-                // Linksklick macht NICHTS mehr (Info-Nachricht wurde entfernt)
             }
             case ClickerGUI.SLOT_SETTINGS -> handleToggle(player, data, event.getInventory());
             case ClickerGUI.SLOT_LEVELUP -> handleLevelUp(player, data, event.getInventory());
-            default -> { /* Deko */ }
+            default -> { }
         }
     }
 
@@ -66,12 +65,10 @@ public class GUIListener implements Listener {
 
     private void handleLevelUp(Player player, PlayerData data, Inventory inv) {
         long cost = gui.nextLevelCost(data.getLevel());
-
         if (!data.removeCookies(cost)) {
             player.sendMessage(prefix() + color("&7Du hast nicht genug Cookies fuer das naechste Level."));
             return;
         }
-
         data.levelUp();
         plugin.getDataManager().saveAll();
         playSound(player, "levelup");

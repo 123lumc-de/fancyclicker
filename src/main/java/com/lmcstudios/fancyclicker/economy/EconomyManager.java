@@ -1,6 +1,6 @@
-package com.lmcstudios.cookieclicker.economy;
+package com.lmcstudios.fancyclicker.economy;
 
-import com.lmcstudios.cookieclicker.CookieClickerPlugin;
+import com.lmcstudios.fancyclicker.FancyClickerPlugin;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -8,10 +8,10 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class EconomyManager {
 
-    private final CookieClickerPlugin plugin;
+    private final FancyClickerPlugin plugin;
     private Economy economy;
 
-    public EconomyManager(CookieClickerPlugin plugin) {
+    public EconomyManager(FancyClickerPlugin plugin) {
         this.plugin = plugin;
         setup();
     }

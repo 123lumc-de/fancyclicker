@@ -1,5 +1,7 @@
+# FancyClicker Konfiguration
+
 gui:
-  title: "&8Cookie Clicker"
+  title: "&8Fancy Clicker"
   size: 27
 
 level-up:
@@ -15,7 +17,7 @@ sounds:
   cashout: ENTITY_EXPERIENCE_ORB_PICKUP
 
 messages:
-  prefix: "&8[#25FF95CookieClicker&8] &f"
+  prefix: "&8[#25FF95FancyClicker&8] &f"
   no-permission: "&7Du hast keine Berechtigung dafuer."
   bind-look-at-block: "&7Schau auf einen Block, um ihn zu binden."
   bind-success: "&7Cookie-Block wurde gebunden."
@@ -31,4 +33,4 @@ messages:
   cashout-none: "&7Du hast keine Cookies zum Einloesen."
   cashout-success: "&7Du hast #25FF95%cookies% &7Cookies gegen #25FF95%money% &7eingeloest."
   cashout-no-economy: "&7Kein Wirtschaftssystem (Vault) verfuegbar."
-  usage: "&7Nutzung: /cc <bind|unbind|reload|reset|setcookie|addcookie|setlevel>"
+  usage: "&7Nutzung: /fc <bind|unbind|reload|reset|setcookie|addcookie|setlevel>"

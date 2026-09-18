@@ -1,8 +1,8 @@
-package com.lmcstudios.cookieclicker.listeners;
+package com.lmcstudios.fancyclicker.listeners;
 
-import com.lmcstudios.cookieclicker.CookieClickerPlugin;
-import com.lmcstudios.cookieclicker.data.PlayerData;
-import com.lmcstudios.cookieclicker.gui.ClickerGUI;
+import com.lmcstudios.fancyclicker.FancyClickerPlugin;
+import com.lmcstudios.fancyclicker.data.PlayerData;
+import com.lmcstudios.fancyclicker.gui.ClickerGUI;
 import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Sound;
@@ -14,9 +14,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class InteractListener implements Listener {
 
-    private final CookieClickerPlugin plugin;
+    private final FancyClickerPlugin plugin;
 
-    public InteractListener(CookieClickerPlugin plugin) {
+    public InteractListener(FancyClickerPlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -30,7 +30,7 @@ public class InteractListener implements Listener {
         event.setCancelled(true);
         Player player = event.getPlayer();
 
-        if (!player.hasPermission("cookieclicker.use")) {
+        if (!player.hasPermission("fancyclicker.use")) {
             player.sendMessage(prefix() + color(plugin.msg("no-permission")));
             return;
         }
@@ -51,14 +51,12 @@ public class InteractListener implements Listener {
         long value = ClickerGUI.clickValue(data.getLevel());
         data.addCookies(value);
 
-        // Sound
         String soundName = plugin.getConfig().getString("sounds.click", "BLOCK_STONE_HIT");
         try {
             Sound sound = Sound.valueOf(soundName);
             player.playSound(player.getLocation(), sound, 1f, 1f);
         } catch (IllegalArgumentException ignored) { }
 
-        // ActionBar: +X Cookies | Y Cookies
         String bar = "#25FF95+" + value + " Cookies &7| #25FF95"
                 + data.getCookies() + " Cookies";
         player.sendActionBar(Component.text(color(bar)));

@@ -14,7 +14,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class FancyClickerPlugin extends JavaPlugin {
 
-    // bStats-Plugin-ID
     private static final int BSTATS_PLUGIN_ID = 34103;
 
     private DataManager dataManager;
@@ -60,16 +59,10 @@ public class FancyClickerPlugin extends JavaPlugin {
 
     private void setupBStats() {
         Metrics metrics = new Metrics(this, BSTATS_PLUGIN_ID);
-
-        // Zeigt, ob Server Economy aktiviert haben
         metrics.addCustomChart(new SimplePie("economy_enabled", () ->
                 String.valueOf(getConfig().getBoolean("economy.enabled", true))));
-
-        // Zeigt die genutzte Minecraft-Version
         metrics.addCustomChart(new SimplePie("minecraft_version", () ->
                 Bukkit.getMinecraftVersion()));
-
-        // Zeigt die Server-Software (Paper, Purpur, etc.)
         metrics.addCustomChart(new SimplePie("server_software", () ->
                 Bukkit.getName()));
     }

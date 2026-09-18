@@ -1,4 +1,4 @@
-package com.lmcstudios.cookieclicker.data;
+package com.lmcstudios.fancyclicker.data;
 
 import java.util.UUID;
 

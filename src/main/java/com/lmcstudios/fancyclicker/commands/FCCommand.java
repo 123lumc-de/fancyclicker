@@ -1,7 +1,7 @@
-package com.lmcstudios.cookieclicker.commands;
+package com.lmcstudios.fancyclicker.commands;
 
-import com.lmcstudios.cookieclicker.CookieClickerPlugin;
-import com.lmcstudios.cookieclicker.data.PlayerData;
+import com.lmcstudios.fancyclicker.FancyClickerPlugin;
+import com.lmcstudios.fancyclicker.data.PlayerData;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -16,11 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CCCommand implements CommandExecutor, TabCompleter {
+public class FCCommand implements CommandExecutor, TabCompleter {
 
-    private final CookieClickerPlugin plugin;
+    private final FancyClickerPlugin plugin;
 
-    public CCCommand(CookieClickerPlugin plugin) {
+    public FCCommand(FancyClickerPlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -167,7 +167,7 @@ public class CCCommand implements CommandExecutor, TabCompleter {
     }
 
     private boolean requireAdmin(CommandSender sender) {
-        if (!sender.hasPermission("cookieclicker.admin")) {
+        if (!sender.hasPermission("fancyclicker.admin")) {
             sender.sendMessage(prefix() + color(plugin.msg("no-permission")));
             return false;
         }
@@ -190,19 +190,11 @@ public class CCCommand implements CommandExecutor, TabCompleter {
     }
 
     private Long parseLong(String s) {
-        try {
-            return Long.parseLong(s);
-        } catch (NumberFormatException e) {
-            return null;
-        }
+        try { return Long.parseLong(s); } catch (NumberFormatException e) { return null; }
     }
 
     private Integer parseInt(String s) {
-        try {
-            return Integer.parseInt(s);
-        } catch (NumberFormatException e) {
-            return null;
-        }
+        try { return Integer.parseInt(s); } catch (NumberFormatException e) { return null; }
     }
 
     private String prefix() {

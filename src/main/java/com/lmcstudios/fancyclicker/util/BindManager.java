@@ -1,6 +1,6 @@
-package com.lmcstudios.cookieclicker.util;
+package com.lmcstudios.fancyclicker.util;
 
-import com.lmcstudios.cookieclicker.CookieClickerPlugin;
+import com.lmcstudios.fancyclicker.FancyClickerPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -12,11 +12,11 @@ import java.io.IOException;
 
 public class BindManager {
 
-    private final CookieClickerPlugin plugin;
+    private final FancyClickerPlugin plugin;
     private final File file;
     private Location boundLocation;
 
-    public BindManager(CookieClickerPlugin plugin) {
+    public BindManager(FancyClickerPlugin plugin) {
         this.plugin = plugin;
         this.file = new File(plugin.getDataFolder(), "bind.yml");
         load();

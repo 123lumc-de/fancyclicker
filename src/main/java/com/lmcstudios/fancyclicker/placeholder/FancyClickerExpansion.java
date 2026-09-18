@@ -1,22 +1,22 @@
-package com.lmcstudios.cookieclicker.placeholder;
+package com.lmcstudios.fancyclicker.placeholder;
 
-import com.lmcstudios.cookieclicker.CookieClickerPlugin;
-import com.lmcstudios.cookieclicker.data.PlayerData;
+import com.lmcstudios.fancyclicker.FancyClickerPlugin;
+import com.lmcstudios.fancyclicker.data.PlayerData;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 
-public class CookieClickerExpansion extends PlaceholderExpansion {
+public class FancyClickerExpansion extends PlaceholderExpansion {
 
-    private final CookieClickerPlugin plugin;
+    private final FancyClickerPlugin plugin;
 
-    public CookieClickerExpansion(CookieClickerPlugin plugin) {
+    public FancyClickerExpansion(FancyClickerPlugin plugin) {
         this.plugin = plugin;
     }
 
     @Override
     public @NotNull String getIdentifier() {
-        return "cookieclicker";
+        return "fancyclicker";
     }
 
     @Override

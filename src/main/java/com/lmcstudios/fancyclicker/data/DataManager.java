@@ -1,6 +1,6 @@
-package com.lmcstudios.cookieclicker.data;
+package com.lmcstudios.fancyclicker.data;
 
-import com.lmcstudios.cookieclicker.CookieClickerPlugin;
+import com.lmcstudios.fancyclicker.FancyClickerPlugin;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -12,12 +12,12 @@ import java.util.UUID;
 
 public class DataManager {
 
-    private final CookieClickerPlugin plugin;
+    private final FancyClickerPlugin plugin;
     private final File file;
     private YamlConfiguration config;
     private final Map<UUID, PlayerData> cache = new HashMap<>();
 
-    public DataManager(CookieClickerPlugin plugin) {
+    public DataManager(FancyClickerPlugin plugin) {
         this.plugin = plugin;
         this.file = new File(plugin.getDataFolder(), "playerdata.yml");
         load();

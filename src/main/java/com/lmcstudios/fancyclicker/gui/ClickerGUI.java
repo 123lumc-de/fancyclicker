@@ -1,7 +1,7 @@
-package com.lmcstudios.cookieclicker.gui;
+package com.lmcstudios.fancyclicker.gui;
 
-import com.lmcstudios.cookieclicker.CookieClickerPlugin;
-import com.lmcstudios.cookieclicker.data.PlayerData;
+import com.lmcstudios.fancyclicker.FancyClickerPlugin;
+import com.lmcstudios.fancyclicker.data.PlayerData;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -23,10 +23,10 @@ public class ClickerGUI {
     public static final int SLOT_SETTINGS = 13;
     public static final int SLOT_LEVELUP = 15;
 
-    private final CookieClickerPlugin plugin;
+    private final FancyClickerPlugin plugin;
     private FileConfiguration guiConfig;
 
-    public ClickerGUI(CookieClickerPlugin plugin) {
+    public ClickerGUI(FancyClickerPlugin plugin) {
         this.plugin = plugin;
         loadGuiConfig();
     }
@@ -41,7 +41,7 @@ public class ClickerGUI {
 
     public Inventory build(Player player) {
         int size = plugin.getConfig().getInt("gui.size", 27);
-        String title = color(plugin.getConfig().getString("gui.title", "&8Cookie Clicker"));
+        String title = color(plugin.getConfig().getString("gui.title", "&8Fancy Clicker"));
 
         CookieHolder holder = new CookieHolder();
         Inventory inv = Bukkit.createInventory(holder, size, title);
@@ -62,7 +62,6 @@ public class ClickerGUI {
         double rate = plugin.getConfig().getDouble("economy.cookies-per-money", 100.0);
         long moneyValue = rate > 0 ? Math.round(data.getCookies() / rate) : 0;
 
-        // ---- Slot 11: Cash Out ----
         inv.setItem(SLOT_INFO, buildItem(
                 "items.info",
                 "%cookies%", String.valueOf(data.getCookies()),
@@ -70,9 +69,7 @@ public class ClickerGUI {
                 "%money%", String.valueOf(moneyValue)
         ));
 
-        // ---- Slot 13: Settings ----
         boolean leftFarms = data.getPreference() == PlayerData.Preference.LEFT;
-
         String rcAction = leftFarms ? "Cookie Clicker" : "Menu";
         String lcAction = leftFarms ? "Menu" : "Cookie Clicker";
 
@@ -82,7 +79,6 @@ public class ClickerGUI {
                 "%lc_action%", lcAction
         ));
 
-        // ---- Slot 15: Level Up ----
         String status = data.getCookies() >= nextCost
                 ? "#25FF95Klicken zum Kaufen"
                 : "&8Nicht genug Cookies";
@@ -139,22 +135,15 @@ public class ClickerGUI {
         return item;
     }
 
-    public static long clickValue(int level) {
-        return level;
-    }
+    public static long clickValue(int level) { return level; }
 
     public long nextLevelCost(int currentLevel) {
         long baseCost = plugin.getConfig().getLong("level-up.base-cost", 5000);
         return baseCost * (long) currentLevel;
     }
 
-    /**
-     * Wandelt Minecraft-Farbcodes (&a, &7...) UND Hex-Codes (#25FF95) in ChatColor um.
-     * Fette Schrift wird nirgends gesetzt.
-     */
     private String color(String s) {
         if (s == null) return "";
-        // Hex-Codes vor &-Codes auflösen
         s = translateHex(s);
         return ChatColor.translateAlternateColorCodes('&', s);
     }
@@ -163,7 +152,7 @@ public class ClickerGUI {
         StringBuilder sb = new StringBuilder();
         int i = 0;
         while (i < input.length()) {
-            if (input.charAt(i) == '#' && i + 6 < input.length() + 1 && i + 7 <= input.length()) {
+            if (input.charAt(i) == '#' && i + 7 <= input.length()) {
                 String hex = input.substring(i + 1, i + 7);
                 if (hex.matches("[0-9a-fA-F]{6}")) {
                     sb.append(net.md_5.bungee.api.ChatColor.of("#" + hex));

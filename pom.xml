@@ -32,7 +32,6 @@
     </repositories>
 
     <dependencies>
-        <!-- Paper API -->
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
@@ -40,7 +39,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Vault (Economy) -->
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
             <artifactId>VaultAPI</artifactId>
@@ -54,7 +52,6 @@
             </exclusions>
         </dependency>
 
-        <!-- PlaceholderAPI -->
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
@@ -62,7 +59,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- bStats (wird in die JAR eingebettet) -->
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
@@ -84,7 +80,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Shade: bStats in die JAR einbetten und relocaten -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
