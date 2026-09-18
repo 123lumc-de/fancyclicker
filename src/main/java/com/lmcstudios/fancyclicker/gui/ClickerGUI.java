@@ -59,14 +59,14 @@ public class ClickerGUI {
         long perClick = clickValue(data.getLevel());
         long nextCost = nextLevelCost(data.getLevel());
 
-        double rate = plugin.getConfig().getDouble("economy.cookies-per-money", 100.0);
-        long moneyValue = rate > 0 ? Math.round(data.getCookies() / rate) : 0;
+    double rate = plugin.getConfig().getDouble("economy.money-per-cookie", 10.0);
+    double moneyValue = data.getCookies() * rate;
 
         inv.setItem(SLOT_INFO, buildItem(
                 "items.info",
                 "%cookies%", String.valueOf(data.getCookies()),
                 "%perclick%", String.valueOf(perClick),
-                "%money%", String.valueOf(moneyValue)
+                "%money%", String.format("%.2f", moneyValue)
         ));
 
         boolean leftFarms = data.getPreference() == PlayerData.Preference.LEFT;

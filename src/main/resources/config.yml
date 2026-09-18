@@ -5,11 +5,11 @@ gui:
   size: 27
 
 level-up:
-  base-cost: 5000
+  base-cost: 2500
 
 economy:
   enabled: true
-  cookies-per-money: 100.0
+  cookies-per-money: 10.0
 
 sounds:
   click: BLOCK_STONE_HIT
