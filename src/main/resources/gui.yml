@@ -11,7 +11,7 @@ items:
       - "&7・Pro Klick: #25FF95%perclick%"
       - "&7・Money: #25FF95%money%"
       - ""
-      - "&8Rechtsklick ≫ #25FF95Cash Out"
+      - "&8Linksklick ≫ #25FF95Cash Out"
 
   settings:
     material: COMPARATOR

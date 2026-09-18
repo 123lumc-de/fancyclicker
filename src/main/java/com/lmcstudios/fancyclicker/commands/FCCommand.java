@@ -49,7 +49,7 @@ public class FCCommand implements CommandExecutor, TabCompleter {
     private void handleBind(CommandSender sender) {
         if (!requireAdmin(sender)) return;
         if (!(sender instanceof Player player)) {
-            sender.sendMessage("Dieser Befehl kann nur von einem Spieler ausgefuehrt werden.");
+            sender.sendMessage("Dieser Befehl kann nur von einem Spieler ausgeführt werden.");
             return;
         }
         Block target = player.getTargetBlockExact(6);

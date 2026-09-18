@@ -46,7 +46,8 @@ public class GUIListener implements Listener {
 
         switch (slot) {
             case ClickerGUI.SLOT_INFO -> {
-                if (type == ClickType.RIGHT || type == ClickType.SHIFT_RIGHT) {
+                // Linksklick löst Cash-Out aus
+                if (type == ClickType.LEFT || type == ClickType.SHIFT_LEFT) {
                     handleCashOut(player, data, event.getInventory());
                 }
             }
@@ -66,7 +67,7 @@ public class GUIListener implements Listener {
     private void handleLevelUp(Player player, PlayerData data, Inventory inv) {
         long cost = gui.nextLevelCost(data.getLevel());
         if (!data.removeCookies(cost)) {
-            player.sendMessage(prefix() + color("&7Du hast nicht genug Cookies fuer das naechste Level."));
+            player.sendMessage(prefix() + color("&7Du hast nicht genug Cookies für das nächste Level."));
             return;
         }
         data.levelUp();
