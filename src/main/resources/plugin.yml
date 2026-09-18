@@ -11,3 +11,11 @@ commands:
     description: Hauptbefehl von FancyClicker.
     usage: /fc <bind|unbind|reload|reset|setcookie|addcookie|setlevel>
     aliases: [fancyclicker]
+
+permissions:
+  fancyclicker.use:
+    description: Erlaubt das Benutzen des Cookie-Clicker-Blocks.
+    default: true
+  fancyclicker.admin:
+    description: Erlaubt Admin-Befehle.
+    default: op
