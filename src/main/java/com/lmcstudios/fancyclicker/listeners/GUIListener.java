@@ -87,7 +87,7 @@ public class GUIListener implements Listener {
             return;
         }
 
-        double rate = plugin.getConfig().getDouble("economy.cookies-per-money", 10.0);
+        double rate = plugin.getConfig().getDouble("economy.cookies-per-money", 100.0);
         long cookies = data.getCookies();
         double money = rate > 0 ? cookies / rate : 0;
 
