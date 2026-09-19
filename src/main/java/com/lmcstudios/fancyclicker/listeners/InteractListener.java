@@ -57,10 +57,9 @@ public class InteractListener implements Listener {
             player.playSound(player.getLocation(), sound, 1f, 1f);
         } catch (IllegalArgumentException ignored) { }
 
-        String bar = "#25FF95+" + value + " Cookies &7| #25FF95"
-                + data.getCookies() + " Cookies";
-        player.sendActionBar(Component.text(color(bar)));
-    }
+    String bar = "<#25FF95>+" + value + " Cookies <gray>| <#25FF95>"
+        + data.getCookies() + " Cookies";
+    player.sendActionBar(net.kyori.adventure.text.minimessage.MiniMessage.miniMessage().deserialize(bar));
 
     private String prefix() {
         return color(plugin.getConfig().getString("messages.prefix", ""));
