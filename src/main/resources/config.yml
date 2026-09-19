@@ -5,7 +5,7 @@ gui:
   size: 27
 
 level-up:
-  base-cost: 2500
+  base-cost: 250
 
 economy:
   enabled: true
