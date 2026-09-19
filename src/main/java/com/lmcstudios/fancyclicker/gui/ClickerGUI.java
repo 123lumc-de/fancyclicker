@@ -59,8 +59,8 @@ public class ClickerGUI {
         long perClick = clickValue(data.getLevel());
         long nextCost = nextLevelCost(data.getLevel());
 
-    double rate = plugin.getConfig().getDouble("economy.money-per-cookie", 10);
-    double moneyValue = data.getCookies() * rate;
+        double rate = plugin.getConfig().getDouble("economy.cookies-per-money", 10.0);
+        double moneyValue = rate > 0 ? data.getCookies() / rate : 0;
 
         inv.setItem(SLOT_INFO, buildItem(
                 "items.info",
