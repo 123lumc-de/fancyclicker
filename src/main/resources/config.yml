@@ -1,11 +1,11 @@
 # FancyClicker Konfiguration
 
 gui:
-  title: "&7&lꜰᴀɴᴄʏ ᴄʟɪᴄᴋᴇʀ"
+  title: "&7COOKIE CLICKER"
   size: 27
 
 level-up:
-  base-cost: 250
+  base-cost: 5000
 
 economy:
   enabled: true
@@ -20,8 +20,9 @@ messages:
   prefix: "&8[#25FF95FancyClicker&8] &f"
   no-permission: "&7Du hast keine Berechtigung dafür."
   bind-look-at-block: "&7Schau auf einen Block, um ihn zu binden."
-  bind-success: "&7Cookie-Block wurde gebunden."
-  unbind-success: "&7Cookie-Block wurde entfernt."
+  bind-success: "&7Cookie-Block wurde gebunden. &8(&f%count%&8)"
+  unbind-success: "&7Cookie-Block wurde entfernt. &8(&f%count%&8)"
+  unbind-all-success: "&7Alle &f%count% &7Bindungen wurden entfernt."
   unbind-none: "&7Es ist aktuell kein Cookie-Block gebunden."
   reload-success: "&7Konfiguration wurde neu geladen."
   reset-success: "&7Daten von %player% wurden zurückgesetzt."
@@ -34,5 +35,3 @@ messages:
   cashout-success: "&7Du hast #25FF95%cookies% &7Cookies gegen #25FF95%money% &7eingelöst."
   cashout-no-economy: "&7Kein Wirtschaftssystem (Vault) verfügbar."
   usage: "&7Nutzung: /fc <bind|unbind|reload|reset|setcookie|addcookie|setlevel>"
-  unbind-all-success: "&7Alle &f%count% &7Bindungen wurden entfernt."
-  bind-all-count: "&7Es sind aktuell &f%count% &7Blöcke gebunden."
