@@ -3,6 +3,7 @@ package com.lmcstudios.fancyclicker.listeners;
 import com.lmcstudios.fancyclicker.FancyClickerPlugin;
 import com.lmcstudios.fancyclicker.data.PlayerData;
 import com.lmcstudios.fancyclicker.gui.ClickerGUI;
+import com.lmcstudios.fancyclicker.util.NumberUtil;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Sound;
@@ -57,8 +58,9 @@ public class InteractListener implements Listener {
             player.playSound(player.getLocation(), sound, 1f, 1f);
         } catch (IllegalArgumentException ignored) { }
 
-        String bar = "<#25FF95>+" + value + " Cookies <gray>| <#25FF95>"
-                + data.getCookies() + " Cookies";
+        String bar = "<#25FF95>+" + NumberUtil.format(value)
+                + " Cookies <gray>| <#25FF95>"
+                + NumberUtil.format(data.getCookies()) + " Cookies";
         player.sendActionBar(MiniMessage.miniMessage().deserialize(bar));
     }
 
