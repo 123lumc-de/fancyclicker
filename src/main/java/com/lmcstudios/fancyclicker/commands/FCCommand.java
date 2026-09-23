@@ -2,6 +2,7 @@ package com.lmcstudios.fancyclicker.commands;
 
 import com.lmcstudios.fancyclicker.FancyClickerPlugin;
 import com.lmcstudios.fancyclicker.data.PlayerData;
+import com.lmcstudios.fancyclicker.util.NumberUtil;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -73,7 +74,6 @@ public class FCCommand implements CommandExecutor, TabCompleter {
             return;
         }
 
-        // Wenn Spieler auf einen gebundenen Block schaut -> nur diesen entfernen
         if (sender instanceof Player player) {
             Block target = player.getTargetBlockExact(6);
             if (target != null && !target.getType().isAir()
@@ -85,7 +85,6 @@ public class FCCommand implements CommandExecutor, TabCompleter {
             }
         }
 
-        // Sonst: alle Bindungen entfernen
         int count = plugin.getBindManager().getBoundCount();
         plugin.getBindManager().unbindAll();
         sender.sendMessage(prefix() + color(plugin.msg("unbind-all-success")
@@ -136,7 +135,7 @@ public class FCCommand implements CommandExecutor, TabCompleter {
         plugin.getDataManager().saveAll();
         sender.sendMessage(prefix() + color(plugin.msg("setcookie-success")
                 .replace("%player%", displayName(target))
-                .replace("%amount%", String.valueOf(amount))));
+                .replace("%amount%", NumberUtil.format(amount))));
     }
 
     private void handleAddCookie(CommandSender sender, String[] args) {
@@ -160,7 +159,7 @@ public class FCCommand implements CommandExecutor, TabCompleter {
         plugin.getDataManager().saveAll();
         sender.sendMessage(prefix() + color(plugin.msg("addcookie-success")
                 .replace("%player%", displayName(target))
-                .replace("%amount%", String.valueOf(amount))));
+                .replace("%amount%", NumberUtil.format(amount))));
     }
 
     private void handleSetLevel(CommandSender sender, String[] args) {
