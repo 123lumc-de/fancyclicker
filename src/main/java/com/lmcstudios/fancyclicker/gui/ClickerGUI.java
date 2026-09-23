@@ -2,6 +2,7 @@ package com.lmcstudios.fancyclicker.gui;
 
 import com.lmcstudios.fancyclicker.FancyClickerPlugin;
 import com.lmcstudios.fancyclicker.data.PlayerData;
+import com.lmcstudios.fancyclicker.util.NumberUtil;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -41,7 +42,7 @@ public class ClickerGUI {
 
     public Inventory build(Player player) {
         int size = plugin.getConfig().getInt("gui.size", 27);
-        String title = color(plugin.getConfig().getString("gui.title", "&8Fancy Clicker"));
+        String title = color(plugin.getConfig().getString("gui.title", "&7COOKIE CLICKER"));
 
         CookieHolder holder = new CookieHolder();
         Inventory inv = Bukkit.createInventory(holder, size, title);
@@ -64,8 +65,8 @@ public class ClickerGUI {
 
         inv.setItem(SLOT_INFO, buildItem(
                 "items.info",
-                "%cookies%", String.valueOf(data.getCookies()),
-                "%perclick%", String.valueOf(perClick),
+                "%cookies%", NumberUtil.format(data.getCookies()),
+                "%perclick%", NumberUtil.format(perClick),
                 "%money%", String.format("%.2f", moneyValue)
         ));
 
@@ -87,7 +88,7 @@ public class ClickerGUI {
                 "items.levelup",
                 "%level%", String.valueOf(data.getLevel()),
                 "%nextlevel%", String.valueOf(data.getLevel() + 1),
-                "%price%", String.valueOf(nextCost),
+                "%price%", NumberUtil.format(nextCost),
                 "%status%", status
         ));
     }
@@ -135,7 +136,9 @@ public class ClickerGUI {
         return item;
     }
 
-    public static long clickValue(int level) { return level; }
+    public static long clickValue(int level) {
+        return level;
+    }
 
     public long nextLevelCost(int currentLevel) {
         long baseCost = plugin.getConfig().getLong("level-up.base-cost", 5000);
