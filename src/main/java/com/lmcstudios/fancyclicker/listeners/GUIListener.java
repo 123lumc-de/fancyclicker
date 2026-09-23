@@ -3,6 +3,7 @@ package com.lmcstudios.fancyclicker.listeners;
 import com.lmcstudios.fancyclicker.FancyClickerPlugin;
 import com.lmcstudios.fancyclicker.data.PlayerData;
 import com.lmcstudios.fancyclicker.gui.ClickerGUI;
+import com.lmcstudios.fancyclicker.util.NumberUtil;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -97,7 +98,7 @@ public class GUIListener implements Listener {
         playSound(player, "cashout");
 
         String message = plugin.msg("cashout-success")
-                .replace("%cookies%", String.valueOf(cookies))
+                .replace("%cookies%", NumberUtil.format(cookies))
                 .replace("%money%", plugin.getEconomyManager().format(money));
         player.sendMessage(prefix() + color(message));
 
